@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Test Parse{% endblock %}
+
+{% block content %}
+    {%if user.level =="USER"%}
+      <h1 align ="center">MEMBER PAGE</h1>
+      <br/>
+      <form method = "POST" enctype="multipart/form-data">
+          <div class = "form-group">
+              <table class="table table-fixed">
+
+                  <thead class="thead-dark">
+                    <tr>
+                      <th class="th-sm">DATE PERSONALE</th>
+                      <th> </th>
+                      <th> </th>
+                    </tr>
+                  </thead>
+          
+                  <tbody>
+                    <tr>
+                      <th style="background-color: #eee;">NUME</th>
+                      <td><input type="text" class="form-control-plaintext" id="last_name" name="last_name" value="{{user.users.last_name}}"></td>
+                      <td><i class="fas fa-pen"></i></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #eee;">PRENUME</th>
+                      <td><input type="text" class="form-control-plaintext" id="first_name" name="first_name" value="{{user.users.first_name}}"></td>
+                      <td><i class="fas fa-pen"></i></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #eee;">CNP</th>
+                      <td><input type="text" class="form-control-plaintext" id="CNP" name="CNP" value="{{user.users.CNP}}"></td>
+                      <td><i class="fas fa-pen"></i></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #eee;">BULETIN</th>
+                      <td>
+                          <input type="text" class="form-control-plaintext" id="series" name="series" value="{{user.users.series}}">
+                          <input type="text" class="form-control-plaintext" id="number" name="number" value="{{user.users.number}}">
+                      </td>
+                      <td><i class="fas fa-pen"></i></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #eee;">ADRESA</th>
+                      <td><input type="text" class="form-control-plaintext" id="adress" name="adress" value="{{user.users.adress}}"></td>
+                      <td><i class="fas fa-pen"></i></td>
+                    </tr>
+          
+                  </tbody>
+          
+                  <thead class="thead-dark">
+                      <tr>
+                        <th class="th-sm">STUDII</th>
+                        <th> </th>
+                        <th> </th>
+                      </tr>
+                    </thead>
+            
+                  <tbody>
+                      <tr>
+                        <th style="background-color: #eee;">FACULTATE</th>
+                        <td>
+                          <select class="custom-select" id="college" name="college">
+                              <option disabled selected style="display:none">{{user.users.college}}</option>
+                              <option>Inginerie Aerospaţială</option>
+                              <option>Automatică și Calculatoare</option>
+                              <option>Inginerie Electrică</option>
+                              <option>Energetică</option>
+                              <option>Electronică, Telecomunicaţii şi Tehnologia Informaţiei</option>
+                              <option>Inginerie Mecanică şi Mecatronică</option>
+                              <option>Inginerie Industrială și Robotică</option>
+                              <option>Ingineria Sistemelor Biotehnice</option>
+                              <option>Inginerie Medicală</option>
+                              <option>Transporturi</option>
+                              <option>Ştiinţa şi Ingineria Materialelor</option>
+                              <option>Chimie Aplicată şi Ştiinţa Materialelor</option>
+                              <option>Inginerie în Limbi Străine</option>
+                              <option>Ştiinţe Aplicate</option>
+                              <option>Antreprenoriat, Ingineria şi Managementul Afacerilor</option>
+                              <option>Altă facultate</option>
+                          </select>
+                        <td><i class="fas fa-pen"></i></td>
+                      </tr> 
+                  </tbody>
+          
+                  <thead class="thead-dark">
+                      <tr>
+                        <th class="th-sm">EUROAVIA</th>
+                        <th> </th>
+                        <th> </th>
+                      </tr>
+                    </thead>
+            
+                  <tbody>
+                      <tr>
+                        <th style="background-color: #eee;">DEPARTAMENT</th>
+                        <td><input type="text" readonly class="form-control-plaintext" id="department" name="department" value="{{user.users.department}}"></td>
+                      </tr>
+                      <tr>
+                          <th style="background-color: #eee;">EXPERIENTA</th>
+                          <td><input type="text" readonly class="form-control-plaintext" id="experience" name="experience" value="{{user.users.experience}}"></td>
+                        </tr> 
+                  </tbody>
+          
+                  <thead class="thead-dark">
+                      <tr>
+                        <th class="th-sm">CONTACT</th>
+                        <th> </th>
+                        <th> </th>
+                      </tr>
+                  </thead>
+          
+                  <tbody>
+                      <tr>
+                        <th style="background-color: #eee;"><i class="fas fa-envelope"></i> MAIL</th>
+                        <td><input type="text" class="form-control-plaintext" id="email" name="email" value="{{user.email}}"></td>
+                        <td><i class="fas fa-pen"></i></td>
+                      </tr>
+                      <tr>
+                          <th style="background-color: #eee;"><i class="fas fa-phone"></i> TELEFON</th>
+                          <td><input type="text" class="form-control-plaintext" id="phonenumber" name="phonenumber" value="{{user.users.phonenumber}}"></td>
+                          <td><i class="fas fa-pen"></i></td>
+                        </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div class="text-center">
+              <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> SUBMIT</button>
+          </div>
+      </form>
+      <script>
+        $("select option:selected").remove();
+      </script>
+    {%else%}
+      <br>
+      <H2 align ='center'>The page you are looking for is unavailable!</H2>
+    {%endif%}
+{% endblock %}

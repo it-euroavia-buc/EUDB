@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Table{% endblock %}
+
+{% block content %}
+
+<h1> alege tabelul pe care vrei sa l stergi </h1>
+
+<form method="post">
+    <label for="tabels">Choose a car:</label>
+    <select id="tabels" name="tabels">
+      <option value="acwo">AcWo</option>
+      <option value="acc">ACC</option>
+      <option value="aerocamp">AeroCamp</option>
+      <option value="drowo">DroWo</option>
+      <option value="credentials">Credentials</option>
+      <option value="freshers">Freshers</option>
+      <option value="hss">HSS</option>
+      <option value="rowo">RoWo</option>
+      <option value="user">User</option>
+      <option value="wica">WiCa</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
+
+{% endblock %}

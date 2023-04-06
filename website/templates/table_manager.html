@@ -1,0 +1,217 @@
+<!-- TK-020 DATABASE ENTRY FRONTEND -->
+{% extends "base.html" %}
+{% block title %}Table Manager{% endblock %}
+{% block content %}
+
+    {% if user.level == "ADMIN" or user.level == "SUPER ADMIN" %}
+        
+        <h1 align ="center">TABLE MANAGER</h1>
+        <br/>
+        <br/>
+        <form method ="POST">
+            <select class="custom-select custom-select-lg mb-3" id="selecttable" name="selecttable" onchange="this.form.submit()">
+                <option selected>{{selectedtable.replace("_", "")}}</option>
+                {% for table in tables %}
+                    {%if table.replace("_", "") != selectedtable%}
+                    <option>{{table.replace("_", "")}}</option>
+                    {%endif%}
+                {% endfor %}
+            </select>
+        </form>
+
+        {% if data_table is not none %}
+
+        <table id="data_table" class="table">
+
+            <tr>
+
+              {% for col in data_table.columns %}
+                <th onclick="sortTable({{loop.index0}})" >{{col}}</th>
+              {% endfor %}
+            </tr>
+
+            <tr>
+              {% for col in data_table.columns %}
+                <th>
+                  <input type="text" id="myInput{{loop.index0}}" onkeyup="filterCol({{loop.index0}})" placeholder="Filter">
+                </th>
+              {% endfor %}
+            </tr>
+
+
+            {% for idx, row in data_table.iterrows() %}
+            <tr>
+
+                {% for col in data_table.columns %}
+                    <td>{{row[col]}}</td>
+                {% endfor %}
+
+            </tr>
+            {% endfor %}
+
+        </table>
+
+        <script>
+        function sortTable(n) {
+          var table, rows, switching, i, x, y, shouldSwitch, dir, order, switchcount = 0;
+          const collator = new Intl.Collator('ro');
+
+          table = document.getElementById("data_table");
+          switching = true;
+          //Set the sorting direction to ascending:
+          dir = "asc";
+          /*Make a loop that will continue until
+          no switching has been done:*/
+          while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /*Loop through all table rows (except the
+            first, which contains table headers, and the second, which contains filters):*/
+            for (i = 2; i < (rows.length - 1); i++) {
+              //start by saying there should be no switching:
+              shouldSwitch = false;
+              /*Get the two elements you want to compare,
+              one from current row and one from the next:*/
+              x = rows[i].getElementsByTagName("TD")[n];
+              y = rows[i + 1].getElementsByTagName("TD")[n];
+
+              if (isNaN(x.innerHTML)) {
+                /*check if the two rows should switch place,
+                based on the direction, asc or desc:*/
+                order = collator.compare(x.innerHTML.toUpperCase(), y.innerHTML.toUpperCase())
+                if (dir == "asc") {
+                  if (order == 1) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch= true;
+                    break;
+                  }
+                } 
+                else if (dir == "desc") {
+                  if (order == -1) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                  }
+                }
+              }
+              else {
+                if (dir == "asc") {
+                  if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch= true;
+                    break;
+                  }
+                } 
+                else if (dir == "desc") {
+                  if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (shouldSwitch) {
+              /*If a switch has been marked, make the switch
+              and mark that a switch has been done:*/
+              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+              switching = true;
+              //Each time a switch is done, increase this count by 1:
+              switchcount ++;
+            } else {
+              /*If no switching has been done AND the direction is "asc",
+              set the direction to "desc" and run the while loop again.*/
+              if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+              }
+            }
+          }
+        }
+        function filterCol(n) {
+          // Declare variables
+          var table, td, idx, txtValue, i, trs;
+          var filters_text = [];
+          var display_logic = [];
+
+          table = document.getElementById("data_table");
+          trs = table.getElementsByTagName("tr");
+
+          // Initializare lista cu elementele de logic_display
+          for (idx = 0; idx < trs.length; idx++) {
+            display_logic.push("")
+            trs[idx].style.display = ""
+          }
+
+          // Incercam sa luam toate filtrele
+          input_filters = document.querySelectorAll('[id^=myInput]')
+          for (idx=0; idx<input_filters.length; idx++){
+            filters_text.push(input_filters[idx].value.toUpperCase())
+          }
+
+          // Loop prin toate filtrele
+          for (idx=0; idx<filters_text.length; idx++){
+            if (filters_text[idx].length == 0){
+              continue
+            }
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < trs.length; i++) {
+              td = trs[i].getElementsByTagName("td")[idx];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                txtValue = txtValue.replace(" ", "")
+
+                if (txtValue.toUpperCase().startsWith(filters_text[idx])) {
+                  continue
+                } else {
+                  display_logic[i] += "filter_" + idx.toString();
+                }
+              }
+            }
+          } 
+
+          // Loop prin toate randurile si seteaza style.display
+          for (idx = 0; idx < trs.length; idx++) {
+            if (display_logic[idx].includes("filter")) {
+              trs[idx].style.display = "none"
+            }
+            else {
+              trs[idx].style.display = ""
+            }
+          }
+
+
+        }
+        </script>
+
+        <style>
+        table {
+          border-spacing: 0;
+          width: 100%;
+          border: 1px solid #ddd;
+        }
+
+        th {
+          cursor: pointer;
+        }
+
+        th, td {
+          text-align: left;
+          padding: 16px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #f2f2f2
+        }
+        </style>
+
+          {% endif %}
+        
+
+    {% else %}
+        <h1 align ="center">MUST HAVE ADMIN PRIVILEGES TO ACCESS THIS PAGE</h1>
+    {% endif %}
+{% endblock %}
+

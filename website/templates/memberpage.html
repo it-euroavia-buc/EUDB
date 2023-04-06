@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Test Parse{% endblock %}
+
+{% block content %}
+
+    {% if user.level == "USER" %}
+      <h1 align ="center">MEMBER PAGE</h1>
+      <br/>
+      <form>
+          <table class="table table-fixed">
+
+              <thead class="thead-dark">
+                <tr>
+                  <th class="th-sm">DATE PERSONALE</th>
+                  <th> </th>
+                </tr>
+              </thead>
+      
+              <tbody>
+                <tr>
+                  <th style="background-color: #eee;">NUME</th>
+                  <td><input type="text" readonly class="form-control-plaintext" id="last_name" value="{{user.users.last_name}}"></td>
+                </tr>
+                <tr>
+                  <th style="background-color: #eee;">PRENUME</th>
+                  <td><input type="text" readonly class="form-control-plaintext" id="first_name" value="{{user.users.first_name}}"></td>
+                </tr>
+                <tr>
+                  <th style="background-color: #eee;">CNP</th>
+                  <td><input type="text" readonly class="form-control-plaintext" id="CNP" value="{{user.users.CNP}}"></td>
+                </tr>
+                <tr>
+                  <th style="background-color: #eee;">BULETIN</th>
+                  <td>
+                      <input type="text" readonly class="form-control-plaintext" id="series" value="{{user.users.series}}">
+                      <input type="text" readonly class="form-control-plaintext" id="number" value="{{user.users.number}}">
+                  </td>
+                </tr>
+                <tr>
+                  <th style="background-color: #eee;">ADRESA</th>
+                  <td><input type="text" readonly class="form-control-plaintext" id="adress" value="{{user.users.adress}}"></td>
+                </tr>
+      
+              </tbody>
+      
+              <thead class="thead-dark">
+                  <tr>
+                    <th class="th-sm">STUDII</th>
+                    <th> </th>
+                  </tr>
+                </thead>
+        
+              <tbody>
+                  <tr>
+                    <th style="background-color: #eee;">FACULTATE</th>
+                    <td><input type="text" readonly class="form-control-plaintext" id="college" value="{{user.users.college}}"></td>
+                  </tr> 
+              </tbody>
+      
+              <thead class="thead-dark">
+                  <tr>
+                    <th class="th-sm">EUROAVIA</th>
+                    <th> </th>
+                  </tr>
+                </thead>
+        
+              <tbody>
+                  <tr>
+                    <th style="background-color: #eee;">DEPARTAMENT</th>
+                    <td><input type="text" readonly class="form-control-plaintext" id="department" value="{{user.users.department}}"></td>
+                  </tr>
+                  <tr>
+                      <th style="background-color: #eee;">EXPERIENTA</th>
+                      <td><input type="text" readonly class="form-control-plaintext" id="experience" value="{{user.users.experience}}"></td>
+                    </tr> 
+              </tbody>
+      
+              <thead class="thead-dark">
+                  <tr>
+                    <th class="th-sm">CONTACT</th>
+                    <th> </th>
+                  </tr>
+              </thead>
+      
+              <tbody>
+                  <tr>
+                    <th style="background-color: #eee;"><i class="fas fa-envelope"></i> MAIL</th>
+                    <td><input type="text" readonly class="form-control-plaintext" id="email" value="{{user.email}}"></td>
+                  </tr>
+                  <tr>
+                      <th style="background-color: #eee;"><i class="fas fa-phone"></i> TELEFON</th>
+                      <td><input type="text" readonly class="form-control-plaintext" id="phonenumber" value="{{user.users.phonenumber}}"></td>
+                    </tr>
+              </tbody>
+            </table>
+          
+          <br>
+          <div class="text-center">
+              <a class="btn btn-primary" id="edit-member-page" href="/edit-member-page"><i class="fas fa-pen"></i>  EDIT DATA</a>
+          </div>
+
+      </form>
+      <br>
+      <p align ='center'>* Dacă dorești excluderea datelor tale din baza de date EUROAVIA trimite un email la <a href="office@euroavia-bucuresti.ro" onclick="copyURI(event)">office@euroavia-bucuresti.ro</a> </p>
+
+      <script>
+        function copyURI(evt) {
+          evt.preventDefault();
+          navigator.clipboard.writeText(evt.target.getAttribute('href')).then(() => {
+            /* clipboard successfully set */
+          }, () => {
+            /* clipboard write failed */
+          });
+      }
+      </script>
+    {%else%}
+      <br>
+      <H2 align ='center'>The page you are looking for is unavailable!</H2>
+    {%endif%}
+    
+
+{% endblock %}

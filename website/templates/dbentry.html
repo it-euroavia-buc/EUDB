@@ -1,0 +1,54 @@
+<!-- TK-020 DATABASE ENTRY FRONTEND -->
+
+{% extends "base.html" %}
+
+{% block title %}Database Entry{% endblock %}
+
+{% block content %}
+
+    {% if user.level == "ADMIN" or user.level == "SUPER ADMIN" %}
+        <h1 align ="center">DATABASE ENTRY</h1>
+        <br/>
+        <br/>
+        <form method = "POST" enctype="multipart/form-data">
+            <h3 align ="center">File Entry</h3>
+            <div class="form-group">
+                <input type="file" name="formfile"/>
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br/>
+        <br/>
+        <form action="database-entry" class="dropzone" id="my-dropzone" name="my-dropzone" method="POST" enctype="multipart/form-data" onaction="dropzoneSubmit(this.form);">
+            <h3 align ="center">Drag&Drop</h3>
+            <button type="submit" class="btn btn-primary">Submit</button> 
+        </form>
+        <br/>
+        <h3 align="center">TEMPLATES</h3>
+        <a href="/download-xlsx">Excel File</a>
+        <br/>
+        <a href="/download-csv">Csv File</a>
+        <br/>
+        <br/>
+        <br/>
+
+    {% else %}
+        <h1 align ="center">MUST HAVE ADMIN PRIVILEGES TO ACCESS THIS PAGE</h1>
+    {% endif %}
+
+        <script>
+            function dropzoneSubmit(form) {
+
+                event.preventDefault
+
+                const formData = new FormData(form);
+
+                var oReq = new XMLHttpRequest();
+                
+                oReq.open("POST");
+
+                oReq.send(formData);
+            }
+        </script>
+{% endblock %}

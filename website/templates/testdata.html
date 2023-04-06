@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block title %}Test Parse{% endblock %}
+
+{% block content %}
+
+    {% if user.level == "ADMIN" %}
+        <h1 align ="center">TEST DATA</h1>
+        {{data}}
+        <br/>
+        {% for row in data%}
+         {{row}}
+         <br/>
+        {%endfor%}
+        <br/>
+    {% else %}
+        <h1 align ="center">MUST HAVE ADMIN PRIVILEGES TO ACCESS THIS PAGE</h1>
+    {% endif %}
+
+{% endblock %}

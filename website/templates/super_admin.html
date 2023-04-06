@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Super-Admin{% endblock %}
+
+{% block content %}
+
+<h1> {{current_user.email}} </h1>
+
+<style>
+    table {
+      margin: 0 auto;
+      width: 80%;
+      border-collapse: collapse;
+      padding-top: 500px;
+    }
+  
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+  
+    .button {
+      background-color: green;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
+  
+
+  <table>
+    <tr>
+        <th>Nr Crt</th>
+        <th>Level</th>
+        <th>Email</th>
+        <th>Generated password</th>
+        <th>Change</th>
+        <th>Sterge</th>
+    {% for admin in admins:%}
+    <tr>
+    <td>{{admin.id}}</td>
+    <td>{{admin.level}}</td>
+    <td>{{admin.email}}</td>
+    <td>{{admin.generated_password}}</td>
+    <td><form method = "POST" value = "change"> 
+      <input type="hidden" name="change" value="change">
+      <input type="hidden" name="change_value" value="{{ admin.id }}"> 
+      <button type="submit" onclick="return confirm('Are you sure you want to perform this action?')">Change</button> </form> </td>
+    <td>
+      <form method="post" >
+        <input type="hidden" name="delete" value="delete">
+        <input type="hidden" name="delete_value" value="{{ admin.id }}"> 
+        <form method="post" >
+          <input type="hidden" name="delete" value="delete">
+          <input type="hidden" name="delete_value" value="{{ admin.id }}"> 
+          <button type="submit" onclick="return confirm('Are you sure you want to perform this action?')">Remove</button> </form> </td>
+    </tr>
+    {%endfor%}
+  </table>
+  </div>
+
+<div class = "add_user">
+  <form method = "post">
+    <input type="hidden" name="add_admin" value="add_admin">
+    <button type="submit">Add Admin</button> 
+  </form>
+</div>
+
+<div class = "add_user">
+  <form method = "post">
+    <input type="hidden" name="delete_table" value="delete_table">
+    <button type="submit">Delete table</button> 
+  </form>
+</div>
+
+
+<style>
+  .add_user{
+    margin: auto;
+    padding: 30px;
+  }
+</style>
+{% endblock %}
